@@ -271,20 +271,24 @@ newly created string with no text properties.
 @defun string-to-multibyte string
 This function returns a multibyte string containing the same sequence
 of characters as @var{string}.  If @var{string} is a multibyte string,
-it is returned unchanged.  The function assumes that @var{string}
-includes only @acronym{ASCII} characters and raw 8-bit bytes; the
-latter are converted to their multibyte representation corresponding
-to the codepoints @code{#x3FFF80} through @code{#x3FFFFF}, inclusive
-(@pxref{Text Representations, codepoints}).
+it is returned unchanged.  Otherwise, byte values @code{#x00} through
+@code{#x7F} (@acronym{ASCII} characters) are mapped to their
+corresponding codepoints, and byte values @code{#x80} through
+@code{#xFF} (eight-bit characters) are mapped to codepoints
+@code{#x3FFF80} through @code{#x3FFFFF} (@pxref{Text Representations,
+codepoints}).
 @end defun
 
 @defun string-to-unibyte string
 This function returns a unibyte string containing the same sequence of
-characters as @var{string}.  It signals an error if @var{string}
-contains a non-@acronym{ASCII} character.  If @var{string} is a
-unibyte string, it is returned unchanged.  Use this function for
-@var{string} arguments that contain only @acronym{ASCII} and eight-bit
-characters.
+characters as @var{string}.  If @var{string} is a unibyte string, it
+is returned unchanged.  Otherwise, codepoints @code{#x00} through
+@code{#x7F} (@acronym{ASCII} characters) are mapped to their
+corresponding byte values, and codepoints @code{#x3FFF80} through
+@code{#x3FFFFF} (eight-bit characters) are mapped to byte values
+@code{#x80} through @code{#xFF} (@pxref{Text Representations,
+codepoints}).  It signals an error if any other codepoint is
+encountered.
 @end defun
 
 @defun byte-to-string byte
